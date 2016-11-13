@@ -1,4 +1,6 @@
-
+#include "FamilyTree.hpp"
+#include <queue>
+using std::queue;
 FamilyTree::FamilyTree() {
     root = NULL;
 }
