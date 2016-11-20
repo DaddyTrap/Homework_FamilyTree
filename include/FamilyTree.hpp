@@ -42,6 +42,6 @@ class FamilyTree {
 
   size_t countMembers(function<bool(const FamilyMember *person)> filter);
 
-  static void PrintMembers(const FamilyMember* root, int printLevel, bool isLeft, bool hasRight);
+  static void PrintMembers(const FamilyMember* root, int printLevel = 0, bool isLeft = false, int blankIndex = 0);
 
 };
