@@ -1,3 +1,5 @@
+#include "FamilyTree.h"
+
 void PrintMembers(const FamilyMember* root, int printLevel = 0, bool isLeft = false, int blankIndex = 0) {
   if (root != NULL) {
   	// print
