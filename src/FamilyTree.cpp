@@ -1,6 +1,9 @@
 #include "FamilyTree.hpp"
 #include <queue>
+#include <iostream>
 using std::queue;
+using std::cout;
+using std::endl;
 
 int FamilyTree::FamilyMember::current_id = 0;
 
@@ -129,4 +132,39 @@ bool FamilyTree::updateMember(function<bool(const FamilyMember *person)> filter,
 
 size_t FamilyTree::countMembers(function<bool(const FamilyMember *person)> filter) {
     return queryMember(filter).size();
+}
+
+void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isLeft, int blankIndex) {
+  if (root != NULL) {
+  	// print
+    if (isLeft) {  // wife
+    	if (root->sex == girl && root->right) { printLevel++; }  // printlevel
+    	cout << " / ";
+    	cout << root->name << endl;
+    } else { // child
+    	if (printLevel > 0) {
+    		for (int i = 0; i < printLevel-1; i++) {
+    			if (i < printLevel-1-blankIndex) {
+	    			cout << "│  ";
+    			} else {
+	    			cout << "   ";
+	    		}
+    		}
+	    	if (root->right) {
+	    		cout << "├─ ";
+	    	} else {
+	    		cout << "└─ ";
+	    		blankIndex++;  // blankindex
+	    	}
+    	}
+    	cout << root->name;
+    	if (root->left == NULL) { cout << endl; }  // whether has a wife
+    }
+    if (root->left) {
+    	if (!(root->sex == girl && root->left->sex == girl)) {  // preWife
+    		PrintMembers(root->left, printLevel, true, blankIndex);
+    	}
+    }
+    PrintMembers(root->right, printLevel, false, blankIndex);
+  }
 }

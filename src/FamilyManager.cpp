@@ -53,5 +53,6 @@ int main() {
     cout << familytree.countMembers([](const FamilyMember *person) -> bool {
         return true;
     }) << endl;
+    FamilyTree::PrintMembers(familytree.root);
     return 0;
 }
