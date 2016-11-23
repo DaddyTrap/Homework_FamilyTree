@@ -1,6 +1,9 @@
 #include "FamilyTree.hpp"
 #include <queue>
 using std::queue;
+
+int FamilyTree::FamilyMember::current_id = 0;
+
 FamilyTree::FamilyTree() {
     root = NULL;
 }
@@ -92,7 +95,7 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
     }
 }
 
-vector<FamilyMember*> FamilyTree::queryMember(function<bool(const FamilyMember *person)> filter) {
+vector<FamilyTree::FamilyMember*> FamilyTree::queryMember(function<bool(const FamilyMember *person)> filter) {
     vector<FamilyMember*> vec;
     if (root != nullptr) {
         queue<FamilyMember*> q;
@@ -122,4 +125,8 @@ bool FamilyTree::updateMember(function<bool(const FamilyMember *person)> filter,
     } else {
         return true;
     }
+}
+
+size_t FamilyTree::countMembers(function<bool(const FamilyMember *person)> filter) {
+    return queryMember(filter).size();
 }

@@ -1,5 +1,5 @@
 CC := g++
-FLAGS := -std=c++11 -g -Wall
+FLAGS := -std=c++11 -g
 INC_DIR := include
 SRC_DIR := src
 BIN_DIR := bin
