@@ -1,10 +1,16 @@
 #include "FamilyTree.hpp"
 #include <iostream>
 #include <queue>
+#include <iostream>
 using std::queue;
 using std::cout;
 using std::endl;
 
+<<<<<<< HEAD
+=======
+int FamilyTree::FamilyMember::current_id = 0;
+
+>>>>>>> a4cf35068923a72233a39dcab3e08340dd6c828e
 FamilyTree::FamilyTree() {
     root = NULL;
 }
@@ -96,7 +102,7 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
     }
 }
 
-vector<FamilyMember*> FamilyTree::queryMember(function<bool(const FamilyMember *person)> filter) {
+vector<FamilyTree::FamilyMember*> FamilyTree::queryMember(function<bool(const FamilyMember *person)> filter) {
     vector<FamilyMember*> vec;
     if (root != nullptr) {
         queue<FamilyMember*> q;
@@ -128,12 +134,24 @@ bool FamilyTree::updateMember(function<bool(const FamilyMember *person)> filter,
     }
 }
 
+<<<<<<< HEAD
 void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel = 0, bool isLeft = false, int blankIndex = 0) {
+=======
+size_t FamilyTree::countMembers(function<bool(const FamilyMember *person)> filter) {
+    return queryMember(filter).size();
+}
+
+void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isLeft, int blankIndex) {
+>>>>>>> a4cf35068923a72233a39dcab3e08340dd6c828e
   if (root != NULL) {
   	// print
     if (isLeft) {  // wife
     	if (root->sex == girl && root->right) { printLevel++; }  // printlevel
+<<<<<<< HEAD
     	std::cout << " / ";
+=======
+    	cout << " / ";
+>>>>>>> a4cf35068923a72233a39dcab3e08340dd6c828e
     	cout << root->name << endl;
     } else { // child
     	if (printLevel > 0) {
@@ -151,7 +169,11 @@ void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel = 0, bool
 	    		blankIndex++;  // blankindex
 	    	}
     	}
+<<<<<<< HEAD
     	cout << root->data;
+=======
+    	cout << root->name;
+>>>>>>> a4cf35068923a72233a39dcab3e08340dd6c828e
     	if (root->left == NULL) { cout << endl; }  // whether has a wife
     }
     if (root->left) {
@@ -161,4 +183,8 @@ void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel = 0, bool
     }
     PrintMembers(root->right, printLevel, false, blankIndex);
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a4cf35068923a72233a39dcab3e08340dd6c828e
