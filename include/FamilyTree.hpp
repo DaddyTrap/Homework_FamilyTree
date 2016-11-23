@@ -15,6 +15,7 @@ class FamilyTree {
   };
 
   struct FamilyMember {
+    static int current_id;
     int id;
     string name;
     Sex sex;
@@ -23,7 +24,7 @@ class FamilyTree {
     bool divorced;
     FamilyMember *left;
     FamilyMember *right;
-    FamilyMember(int t_id, string t_name, Sex t_sex, int t_age, bool t_die, FamilyMember *t_left, FamilyMember *t_right);
+    FamilyMember(string t_name, Sex t_sex, int t_age, bool t_die = false, bool t_divorced = false, FamilyMember *t_left = nullptr, FamilyMember *t_right = nullptr) :  name(t_name), sex(t_sex), age(t_age), dead(t_die), divorced(t_divorced), left(t_left), right(t_right), id(current_id++) {}
   };
 
   FamilyTree();
@@ -42,6 +43,8 @@ class FamilyTree {
 
   size_t countMembers(function<bool(const FamilyMember *person)> filter);
 
-  static void PrintMembers(const FamilyMember* root, int printLevelzz, bool isLeft = false, int blankIndex = 0);
+  static void PrintMembers(const FamilyMember* root, int printLevelzz = 0, bool isLeft = false, int blankIndex = 0);
+
+  FamilyMember *root;
 
 };
