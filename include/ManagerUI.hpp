@@ -301,7 +301,7 @@ class ManagerUI {
             });
             tmp2 = query_res.size();
             cout << "共有" << tmp1 << "个男性，" << tmp2 << "个女性" << endl
-                 << "男女比例为" << tmp1 / tmp2 << endl;
+                 << "男女比例为" << double(tmp1) / tmp2 << endl;
             break;
 
             default:
