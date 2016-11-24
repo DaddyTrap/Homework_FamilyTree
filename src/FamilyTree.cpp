@@ -144,6 +144,11 @@ void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isL
             if (root->left == NULL) {
                 cout << " / ";
                 cout << root->name;
+                if (!root->divorced) {
+                    cout << "[F]*";
+                } else {
+                    cout << "[F]--Divorced";
+                }
                 cout << endl;
                 PrintMembers(root->right, printLevel, false, blankIndex);
             } else {
@@ -163,7 +168,13 @@ void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isL
                     while (blankIndex.size() > printLevel-1) { blankIndex.pop_back(); }
                     blankIndex.push_back(false);  // blankindex
                 }
-                cout << root->name << endl;
+                cout << root->name;
+                if (!root->divorced) {
+                    cout << "[F]*";
+                } else {
+                    cout << "[F]--Divorced";
+                }
+                cout << endl;
                 PrintMembers(root->right, printLevel+1, false, blankIndex);
                 if (root->left != NULL) {
                     if (root->left->left == NULL) {  // last wife
@@ -174,7 +185,13 @@ void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isL
                                 cout << "   ";
                             }
                         }
-                        cout << "└─ " << root->left->name << endl;
+                        cout << "└─ " << root->left->name;
+                        if (!root->divorced) {
+                            cout << "[F]*";
+                        }  else {
+                            cout << "[F]--Divorced";
+                        }
+                        cout << endl;
                         while (blankIndex.size() > printLevel-1) { blankIndex.pop_back(); }
                         blankIndex.push_back(false);  // blankindex
                         PrintMembers(root->left->right, printLevel+1, false, blankIndex);
@@ -204,6 +221,11 @@ void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isL
                 }
             }
             cout << root->name;
+            if (root->sex == girl) {
+                cout << "[F]";
+            } else {
+                cout << "[M]";
+            }
             if (root->left == NULL) { cout << endl; }  // whether has a wife
             if (root->left != NULL) {
                 if (root->left->left != NULL) {cout << "(reMarriage)" << endl;}
