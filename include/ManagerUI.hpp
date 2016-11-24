@@ -44,7 +44,10 @@ class ManagerUI {
         }
         PrintUI();
         while (cin >> command, !cin.eof() && command != 0) {
-            if (!m_familytree_ptr->root) command = -1;
+            if (!m_familytree_ptr->root) {
+                cout << "族谱祖先消失，程序终止" << endl;
+                return;
+            }
             switch(command) {
                 case 1:
                 insertWife(); break;
@@ -180,7 +183,7 @@ class ManagerUI {
     }
 
     void deleteMember() {
-        cout << "@ 更新成员信息" << endl
+        cout << "@ 删除成员信息" << endl
              << "输入要删除的成员姓名" << endl;
         string t_name;
         cin >> t_name;
@@ -289,7 +292,11 @@ class ManagerUI {
             for (auto &i : query_res) {
                 tmp1 += i->age;
             }
-            cout << query_res.size() << "人已故，平均死亡年龄为" << tmp1 / query_res.size() << endl;
+            if (query_res.size()) {
+                cout << query_res.size() << "人已故，平均死亡年龄为" << double(tmp1) / query_res.size() << endl;
+            } else {
+                cout << "0人已故，平均死亡年龄无法计算" << endl;
+            }
             break;
 
             case 2:
@@ -302,7 +309,7 @@ class ManagerUI {
             });
             tmp2 = query_res.size();
             cout << "共有" << tmp1 << "个男性，" << tmp2 << "个女性" << endl
-                 << "男女比例为" << tmp1 / tmp2 << endl;
+                 << "男女比例为" << double(tmp1) / tmp2 << endl;
             break;
 
             default:
@@ -312,7 +319,7 @@ class ManagerUI {
     }
 
     FamilyMember* handleMultiQueryResult(vector<FamilyMember*> &res) {
-        cout << "有" << res.size() << "个查询结果";
+        cout << "有" << res.size() << "个查询结果" << endl;
         for (int i = 0; i < res.size(); ++i) {
             cout << "选择 " << i << endl;
             printOneMember(res[i]);
