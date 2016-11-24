@@ -74,8 +74,7 @@ void oneTest() {
 }
 
 int main() {
-    FamilyTree tree;
-    ManagerUI ui(tree);
+    ManagerUI ui(new FamilyTree());
     ui.InputLoop();
     return 0;
 }

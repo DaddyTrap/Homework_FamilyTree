@@ -21,7 +21,7 @@ typedef FamilyTree::FamilyMember FamilyMember;
 
 class ManagerUI {
   public:
-    ManagerUI(FamilyTree &tree) : m_familytree_ptr(&tree) {}
+    ManagerUI(FamilyTree *tree) : m_familytree_ptr(tree) {}
     
     void PrintUI() {
         cout << "--------------------------------------------------------------------------------" << endl
