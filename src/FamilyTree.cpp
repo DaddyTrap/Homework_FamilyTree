@@ -55,6 +55,7 @@ void FamilyTree::insertWife(FamilyMember *person, FamilyMember *husband) {
 
 bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter) {
     int flag = 0;
+    int flag1 = 0; // Judge whether she is a wife
     if (root != nullptr) {
         queue<FamilyMember*> q;
         q.push(root);
@@ -90,10 +91,18 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                             temp->right = temp->right->right;
                             break;
                         }
+                        if (temp->left != nullptr && temp->left->id == id) {
+                            flag1 = 1;
+                        }
                         q2.pop();
                     }
                 }
-                delete temp;
+                if (flag1 == 0) {
+                    delete temp;
+                } else {
+                    cout << "You can not delete wife" << endl;
+                    return false;
+                }
             }
             q.pop();
         }

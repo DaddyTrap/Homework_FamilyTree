@@ -201,10 +201,11 @@ class ManagerUI {
             member = query_res[0];
         cout << "当前成员信息:" << endl;
         printOneMember(member);
-        m_familytree_ptr->deleteMember([&](const FamilyMember* person) {
+        if(m_familytree_ptr->deleteMember([&](const FamilyMember* person) {
             return member == person;
-        });
-        cout << "已删除" << endl;
+        })) {
+            cout << "已删除" << endl;
+        }
     }
 
     void queryMember() {
