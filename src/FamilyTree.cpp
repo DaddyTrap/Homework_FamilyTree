@@ -77,27 +77,23 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                         q1.pop();
                     }
                 }
-                if (temp->sex == boy) {
-                    if (temp == root) {
-                        root = temp->right;
-                    } else {
-                        queue<FamilyMember*> q2;
-                        q2.push(root);
-                        while(!q2.empty()) {
-                            FamilyMember* temp = q2.front();
-                            if (temp->left != nullptr) q2.push(temp->left);
-                            if (temp->right != nullptr) q2.push(temp->right);
-                            if (temp->right != nullptr && temp->right->id == id) {
-                                temp->right = temp->right->right;
-                                break;
-                            }
-                            q2.pop();
-                        }
-                    }
-                    delete temp;
+                if (temp == root) {
+                    root = temp->right;
                 } else {
-                    temp->id = -1;   // make a flag but don't delete
+                    queue<FamilyMember*> q2;
+                    q2.push(root);
+                    while(!q2.empty()) {
+                        FamilyMember* temp = q2.front();
+                        if (temp->left != nullptr) q2.push(temp->left);
+                        if (temp->right != nullptr) q2.push(temp->right);
+                        if (temp->right != nullptr && temp->right->id == id) {
+                            temp->right = temp->right->right;
+                            break;
+                        }
+                        q2.pop();
+                    }
                 }
+                delete temp;
             }
             q.pop();
         }
