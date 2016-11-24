@@ -1,3 +1,6 @@
+#ifndef FAMILY_TREE_HPP
+#define FAMILY_TREE_HPP
+
 #include <string>
 #include <functional>
 #include <vector>
@@ -48,3 +51,5 @@ class FamilyTree {
   FamilyMember *root;
 
 };
+
+#endif

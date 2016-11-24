@@ -10,13 +10,13 @@ $(BIN_DIR)/FamilyTree: $(BUILD_DIR)/FamilyTree.o $(BUILD_DIR)/FamilyManager.o
 	mkdir -p $(BIN_DIR)
 	$(CC) $(FLAGS) $(INCLUDE) $^ -o $@
 
-$(BUILD_DIR)/FamilyTree.o: $(SRC_DIR)/FamilyTree.cpp
+$(BUILD_DIR)/FamilyTree.o: $(SRC_DIR)/FamilyTree.cpp $(INC_DIR)/FamilyTree.hpp
 	mkdir -p $(BUILD_DIR)
-	$(CC) $(FLAGS) $(INCLUDE) $^ -c -o $@
+	$(CC) $(FLAGS) $(INCLUDE) $< -c -o $@
 
-$(BUILD_DIR)/FamilyManager.o: $(SRC_DIR)/FamilyManager.cpp
+$(BUILD_DIR)/FamilyManager.o: $(SRC_DIR)/FamilyManager.cpp $(INC_DIR)/ManagerUI.hpp
 	mkdir -p $(BUILD_DIR)
-	$(CC) $(FLAGS) $(INCLUDE) $^ -c -o $@
+	$(CC) $(FLAGS) $(INCLUDE) $< -c -o $@
 
 clean:
 	rm -rf $(BUILD_DIR)
