@@ -44,7 +44,6 @@ class ManagerUI {
         }
         PrintUI();
         while (cin >> command, !cin.eof() && command != 0) {
-            PrintUI();
             if (!m_familytree_ptr->root) command = -1;
             switch(command) {
                 case 1:
@@ -75,6 +74,7 @@ class ManagerUI {
             #elif defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
             system("cls");
             #endif
+            PrintUI();
         }
     }
 
@@ -277,7 +277,7 @@ class ManagerUI {
             query_res = m_familytree_ptr->queryMember([&](const FamilyMember *person) -> bool {
                 return true;
             });
-            cout << "总人数: " << query_res.size();
+            cout << "总人数: " << query_res.size() << endl;
             break;
 
             case 1:
@@ -288,7 +288,7 @@ class ManagerUI {
             for (auto &i : query_res) {
                 tmp1 += i->age;
             }
-            cout << query_res.size() << "人已故，平均死亡年龄为" << tmp1 / query_res.size();
+            cout << query_res.size() << "人已故，平均死亡年龄为" << tmp1 / query_res.size() << endl;
             break;
 
             case 2:
