@@ -23,6 +23,10 @@ FamilyTree::~FamilyTree() {
 
 void FamilyTree::insertChild(FamilyMember *person, FamilyMember *mother) {
     FamilyMember* p = mother;
+    if (mother == NULL) {
+        cout << "No Such a mother!" << endl;
+        return;
+    }
     while (p->right) p = p->right;
     p->right = person;
 }
@@ -32,7 +36,10 @@ void FamilyTree::insertChild(FamilyMember *person, FamilyMember *mother) {
 void FamilyTree::insertWife(FamilyMember *person, FamilyMember *husband) {
     if (husband) {
         FamilyMember* p = husband;
-        while (p->left) p = p->left;
+        while (p->left) {
+            p->divorced = true;
+            p = p->left;
+        }
         p->left = person;
     } else {
         root = person;
