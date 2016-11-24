@@ -32,6 +32,7 @@ class ManagerUI {
             << "5. 删除成员" << endl
             << "6. 查询" << endl
             << "7. 打印家谱" << endl
+            << "8. 数据统计" << endl
             << "0. 离开" << endl
             << "--------------------------------------------------------------------------------" << endl;
     }
@@ -41,12 +42,8 @@ class ManagerUI {
         while (!m_familytree_ptr->root) {
             insertAncestor();
         }
+        PrintUI();
         while (cin >> command, !cin.eof() && command != 0) {
-            #if defined(__linux) || defined(__linux__)
-            system("clear");
-            #elif defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-            system("cls");
-            #endif
             PrintUI();
             if (!m_familytree_ptr->root) command = -1;
             switch(command) {
@@ -64,6 +61,8 @@ class ManagerUI {
                 queryMember(); break;
                 case 7:
                 printTree(); break;
+                case 8:
+                statisticAnalyze(); break;
                 default:
                 cout << "没有这样的操作，请确认跟提示是否相符" << endl; break;
             }
@@ -71,6 +70,11 @@ class ManagerUI {
             cout << "按下Enter继续" << endl;
             getchar();
             getchar();
+            #if defined(__linux) || defined(__linux__)
+            system("clear");
+            #elif defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+            system("cls");
+            #endif
         }
     }
 
@@ -257,6 +261,53 @@ class ManagerUI {
 
     void printTree() {
         FamilyTree::PrintMembers(m_familytree_ptr->root);
+    }
+
+    void statisticAnalyze() {
+        cout << "请输入统计的项目" << endl
+             << "0. 总人数" << endl
+             << "1. 平均死亡年龄" << endl
+             << "2. 男女比例" << endl;
+        int statisticType = 0;
+        cin >> statisticType;
+        vector<FamilyMember*> query_res;
+        int tmp1 = 0, tmp2 = 0;
+        switch(statisticType) {
+            case 0:
+            query_res = m_familytree_ptr->queryMember([&](const FamilyMember *person) -> bool {
+                return true;
+            });
+            cout << "总人数: " << query_res.size();
+            break;
+
+            case 1:
+            query_res = m_familytree_ptr->queryMember([&](const FamilyMember *person) -> bool {
+                return person->dead;
+            });
+            tmp1 = 0;
+            for (auto &i : query_res) {
+                tmp1 += i->age;
+            }
+            cout << query_res.size() << "人已故，平均死亡年龄为" << tmp1 / query_res.size();
+            break;
+
+            case 2:
+            query_res = m_familytree_ptr->queryMember([&](const FamilyMember *person) -> bool {
+                return person->sex == FamilyTree::Sex::boy;
+            });
+            tmp1 = query_res.size();
+            query_res = m_familytree_ptr->queryMember([&](const FamilyMember *person) -> bool {
+                return person->sex == FamilyTree::Sex::girl;
+            });
+            tmp2 = query_res.size();
+            cout << "共有" << tmp1 << "个男性，" << tmp2 << "个女性" << endl
+                 << "男女比例为" << tmp1 / tmp2 << endl;
+            break;
+
+            default:
+            cout << "没有这个选项，请重新确认选项" << endl;
+            break;
+        }
     }
 
     FamilyMember* handleMultiQueryResult(vector<FamilyMember*> &res) {
