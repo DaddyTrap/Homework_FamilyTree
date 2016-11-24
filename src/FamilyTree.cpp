@@ -84,6 +84,7 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                                 temp->right = temp->right->right;
                                 break;
                             }
+                            q2.pop();
                         }
                     }
                     delete temp;
@@ -92,6 +93,7 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                 }
             }
         }
+        q.pop();
     }
     if (flag == 0) {
         return false;
