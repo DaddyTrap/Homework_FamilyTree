@@ -63,14 +63,14 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                 if (temp->left != nullptr) {
                     queue<FamilyMember*> q1;
                     q1.push(temp->left);
-                    temp->left = nullptr;
                     while(!q1.empty()) {
                         FamilyMember* temp = q1.front();
                         if (temp->left != nullptr) q1.push(temp->left);
                         if (temp->right != nullptr) q1.push(temp->right);
-                        delete temp;
+                        //delete temp;
                         q1.pop();
                     }
+                   temp->left = nullptr;
                 }
                 if (temp == root) {
                     root = temp->right;
