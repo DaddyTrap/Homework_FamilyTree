@@ -189,7 +189,7 @@ void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isL
                             }
                         }
                         cout << "└─ " << root->left->name;
-                        if (!root->divorced) {
+                        if (!root->left->divorced) {
                             cout << "[F]*";
                         }  else {
                             cout << "[F]--Divorced";
