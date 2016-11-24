@@ -1,7 +1,9 @@
 #include "FamilyTree.hpp"
 #include <queue>
+#include <vector>
 #include <iostream>
 using std::queue;
+using std::vector;
 using std::cout;
 using std::endl;
 
@@ -134,37 +136,80 @@ size_t FamilyTree::countMembers(function<bool(const FamilyMember *person)> filte
     return queryMember(filter).size();
 }
 
-void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isLeft, int blankIndex) {
-  if (root != NULL) {
-  	// print
-    if (isLeft) {  // wife
-    	if (root->sex == girl && root->right) { printLevel++; }  // printlevel
-    	cout << " / ";
-    	cout << root->name << endl;
-    } else { // child
-    	if (printLevel > 0) {
-    		for (int i = 0; i < printLevel-1; i++) {
-    			if (i < printLevel-1-blankIndex) {
-	    			cout << "│  ";
-    			} else {
-	    			cout << "   ";
-	    		}
-    		}
-	    	if (root->right) {
-	    		cout << "├─ ";
-	    	} else {
-	    		cout << "└─ ";
-	    		blankIndex++;  // blankindex
-	    	}
-    	}
-    	cout << root->name;
-    	if (root->left == NULL) { cout << endl; }  // whether has a wife
+void FamilyTree::PrintMembers(const FamilyMember* root, int printLevel, bool isLeft, vector<bool> blankIndex) {
+    if (root != NULL) {
+        // print
+        if (isLeft) {  // wife
+            if (root->sex == girl && root->right) { printLevel++; }  // printlevel
+            if (root->left == NULL) {
+                cout << " / ";
+                cout << root->name;
+                cout << endl;
+                PrintMembers(root->right, printLevel, false, blankIndex);
+            } else {
+                for (int i = 0; i < printLevel-1; i++) {
+                    if (blankIndex[i]) {
+                        cout << "│  ";
+                    } else {
+                        cout << "   ";
+                    }
+                }
+                if (root->left) {
+                    cout << "├─ ";
+                    while (blankIndex.size() > printLevel-1) { blankIndex.pop_back(); }
+                    blankIndex.push_back(true);
+                } else {
+                    cout << "└─ ";
+                    while (blankIndex.size() > printLevel-1) { blankIndex.pop_back(); }
+                    blankIndex.push_back(false);  // blankindex
+                }
+                cout << root->name << endl;
+                PrintMembers(root->right, printLevel+1, false, blankIndex);
+                if (root->left != NULL) {
+                    if (root->left->left == NULL) {  // last wife
+                        for (int i = 0; i < printLevel-1; i++) {
+                            if (blankIndex[i]) {
+                                cout << "│  ";
+                            } else {
+                                cout << "   ";
+                            }
+                        }
+                        cout << "└─ " << root->left->name << endl;
+                        while (blankIndex.size() > printLevel-1) { blankIndex.pop_back(); }
+                        blankIndex.push_back(false);  // blankindex
+                        PrintMembers(root->left->right, printLevel+1, false, blankIndex);
+                    } else {
+                        if (root->left->right == NULL) { printLevel++; }
+                        PrintMembers(root->left, printLevel-1, true, blankIndex);
+                    }
+                }
+            }
+        } else { // child
+            if (printLevel > 0) {
+                for (int i = 0; i < printLevel-1; i++) {
+                    if (blankIndex[i]) {
+                        cout << "│  ";
+                    } else {
+                        cout << "   ";
+                    }
+                }
+                if (root->right) {
+                    cout << "├─ ";
+                    while (blankIndex.size() > printLevel-1) { blankIndex.pop_back(); }
+                    blankIndex.push_back(true);
+                } else {
+                    cout << "└─ ";
+                    while (blankIndex.size() > printLevel-1) { blankIndex.pop_back(); }
+                    blankIndex.push_back(false);  // blankindex
+                }
+            }
+            cout << root->name;
+            if (root->left == NULL) { cout << endl; }  // whether has a wife
+            if (root->left != NULL) {
+                if (root->left->left != NULL) {cout << "(reMarriage)" << endl;}
+            }
+            PrintMembers(root->left, printLevel, true, blankIndex);
+            PrintMembers(root->right, printLevel, false, blankIndex);
+        }
     }
-    if (root->left) {
-    	if (!(root->sex == girl && root->left->sex == girl)) {  // preWife
-    		PrintMembers(root->left, printLevel, true, blankIndex);
-    	}
-    }
-    PrintMembers(root->right, printLevel, false, blankIndex);
-  }
 }
