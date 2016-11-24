@@ -45,7 +45,6 @@ void FamilyTree::insertWife(FamilyMember *person, FamilyMember *husband) {
     if (husband) {
         FamilyMember* p = husband;
         while (p->left) {
-            p->divorced = true;
             p = p->left;
         }
         p->left = person;
