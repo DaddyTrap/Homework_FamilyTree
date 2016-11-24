@@ -62,6 +62,7 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                 if (temp->left != nullptr) {
                     queue<FamilyMember*> q1;
                     q1.push(temp->left);
+                    temp->left = nullptr;
                     while(!q1.empty()) {
                         FamilyMember* temp = q1.front();
                         if (temp->left != nullptr) q1.push(temp->left);
@@ -80,7 +81,7 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                             FamilyMember* temp = q2.front();
                             if (temp->left != nullptr) q2.push(temp->left);
                             if (temp->right != nullptr) q2.push(temp->right);
-                            if (temp->right && temp->right->id == id) {
+                            if (temp->right != nullptr && temp->right->id == id) {
                                 temp->right = temp->right->right;
                                 break;
                             }
@@ -92,8 +93,8 @@ bool FamilyTree::deleteMember(function<bool(const FamilyMember *person)> filter)
                     temp->id = -1;   // make a flag but don't delete
                 }
             }
+            q.pop();
         }
-        q.pop();
     }
     if (flag == 0) {
         return false;
